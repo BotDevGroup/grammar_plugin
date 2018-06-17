@@ -64,7 +64,10 @@ class GrammarPlugin(Plugin):
 
             responses.append(response)
 
-        message.reply_text(text='\n\n'.join(responses)[:4096], parse_mode='HTML')
+        if len(responses) > 0:
+          message.reply_text(text='\n\n'.join(responses)[:4096], parse_mode='HTML') 
+        else:
+          message.reply_text(text='No grammatical errors found.')
 
     def fetch_corrections(self, text):
         payload = {
