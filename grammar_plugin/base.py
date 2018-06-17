@@ -18,8 +18,7 @@ class GrammarPlugin(Plugin):
             'short_name': self.name,
             'enabled': True,
             'base_url': 'https://languagetool.org/api/v2/check',
-            'language': 'auto',
-            'preferredLanguages': 'en-US,en-GB'
+            'language': 'en-US'
         }
 
     def configure(self, config):
@@ -49,7 +48,6 @@ class GrammarPlugin(Plugin):
         log.info(json.dumps(data))
 
         responses = []
-        curr_len = 0
         for match in data.get('matches'):
             context = match.get('context', {}).get('text', '')
             offset = match.get('context', {}).get('offset', 0)
@@ -71,8 +69,7 @@ class GrammarPlugin(Plugin):
     def fetch_corrections(self, text):
         payload = {
             'text': text,
-            'language': self.config.get('language'),
-            'preferredLanguages': self.config.get('preferredLanguages')
+            'language': self.config.get('language')
         }
         url = self.config.get('base_url')
         response = requests.post(url, data=payload)
